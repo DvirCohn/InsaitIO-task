@@ -21,7 +21,7 @@ services:
   web:
     build: .
     container_name: flask_app
-    command: sh -c "sleep 10 && python app.py"
+    command: sh -c "sleep 10 && alembic upgrade head && python app.py"
     volumes:
       - .:/app
     ports:
@@ -30,6 +30,8 @@ services:
       - db
     environment:
       FLASK_ENV: development
+      DATABASE_URL: postgresql://myuser:mypassword@db:5432/mydatabase
+    
 
 volumes:
   pgdata:
