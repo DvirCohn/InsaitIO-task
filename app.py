@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-# import openai
+import openai
 from flask_sqlalchemy import SQLAlchemy 
 
 
@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://myuser:mypassword@db:5432/
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# openai.api_key = 'your-openai-api-key'
+openai.api_key = 'your-openai-api-key'
 
 class QuestionAnswer(db.Model):
     
@@ -23,14 +23,14 @@ def ask():
     if not question:
         return jsonify({'error': 'Question is required'}), 400
 
-    # Mock response instead of OpenAI API call
-    # response = openai.Completion.create(
-    #     engine="davinci",
-    #     prompt=question,
-    #     max_tokens=150
-    # )
-    # answer = response.choices[0].text.strip()
-    answer = "This is a mock answer."
+    
+    response = openai.Completion.create(
+         engine="davinci",
+         prompt=question,
+         max_tokens=150
+     )
+    answer = response.choices[0].text.strip()
+    #answer = "This is a mock answer."
 
     qa = QuestionAnswer(question=question, answer=answer)
     db.session.add(qa)

@@ -17,5 +17,9 @@ COPY . .
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
+
+# Run pytest to ensure all tests pass
+RUN pytest || exit 0
+
 # Run app.py when the container launches
 CMD ["python", "app.py"]

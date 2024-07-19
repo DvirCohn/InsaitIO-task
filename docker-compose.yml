@@ -31,6 +31,16 @@ services:
     environment:
       FLASK_ENV: development
       DATABASE_URL: postgresql://myuser:mypassword@db:5432/mydatabase
+
+  tests:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=testing
+    command: pytest
+    depends_on:
+      - db
     
 
 volumes:
